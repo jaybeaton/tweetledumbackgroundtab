@@ -4,29 +4,19 @@
  * @author Aaron Saray (http://aaronsaray.com)
  */
 (function(){
-	/**
-	 * The selectors used to find the URL
-	 * @type {array}
-	 */
-    var selectors = [
-		'div.selectedEntry a.title',			// title bar for active entry, collapsed or expanded
-		'.selectedEntry a.visitWebsiteButton',	// the button square button on list view
-		'.list-entries .selected a.visitWebsiteButton',	// the button square button on list view
-		'a.visitWebsiteButton',					// the floating one for card view
-		'.entry.selected a.title'				// title bar for active entry in React-based collapsed list view
-    ];
-	
+
 	/**
 	 * Main feedlybackgroundtab constructor
 	 */
 	var FBT = function() {
 
 		/**
-		 * The default key code which is ;
+		 * The default key codea which are ; and '
 		 * @type {number}
 		 * @private
 		 */
 		var _triggerKeyCode = 59;
+		var _triggerTweetCode = 39;
 
 		/**
 		 * Used to create the default key code from local storage
@@ -38,6 +28,11 @@
 					_triggerKeyCode = settings.shortcutKey.charCodeAt(0);
 				}
 			});
+			chrome.storage.sync.get('tweetKey', function(settings) {
+				if (settings.tweetKey) {
+					_triggerTweetCode = settings.tweetKey.charCodeAt(0);
+				}
+			});
 		};
 
 		/**
@@ -47,27 +42,35 @@
 		 */
 		this.keyPressHandler = function(e) {
 			var tag = e.target.tagName.toLowerCase();
-			if (tag != 'input' && tag != 'textarea') {
-				if ((!e.altKey && !e.ctrlKey) && e.keyCode == _triggerKeyCode) {
-                    var url;
-                    for (var x in selectors) {
-                        url = document.querySelector(selectors[x]);
-                        if (url) {
-                            break;
-                        }
-                    }
-					if (url) {
-						chrome.extension.sendMessage({url: url.href});
+			if (tag !== 'input' && tag !== 'textarea') {
+				if (!e.altKey && !e.ctrlKey) {
+
+					var checked = false;
+					var url;
+
+					if (e.keyCode === _triggerKeyCode) {
+						checked = true;
+						url = document.querySelector('div.active').getAttribute('data-url');
+					} else if (e.keyCode === _triggerTweetCode) {
+							checked = true;
+							url = document.querySelector('div.active').getAttribute('data-tweet');
 					}
-                    else {
-                        console.log("Could not find any selectors from: " + selectors.join());
-                    }
+
+					if (checked) {
+							if (url) {
+									chrome.extension.sendMessage({url: url});
+							}
+							else {
+									console.log("Could not find any url.");
+							}
+					}
+
 				}
 			}
 		}
 	};
 
-	if (window == top) {
+	if (window === top) {
 		var fbt = new FBT();
 		fbt.init();
 		window.addEventListener('keypress', fbt.keyPressHandler, false);

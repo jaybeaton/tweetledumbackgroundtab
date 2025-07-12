@@ -24,18 +24,18 @@ chrome.extension.onMessage.addListener(
  * Notify users of updates/installed versions
  */
 chrome.runtime.onInstalled.addListener(function(details) {
-	if (details.reason == 'update') {
+	if (details.reason === 'update') {
 		var url = '';
 		switch (details.previousVersion) {
 			case "0.1":
 				// big update: added options and customized key
-				url = 'data:text/html,<h1>FeedlyBackgroundTab Updated!</h1><p>Feedly Background Tab has been updated.  Please check the <a href="https://chrome.google.com/webstore/detail/feedly-background-tab/gjlijkhcebalcchkhgaiflaooghmoegk">extension page</a> for more information.</p>';
+				url = 'data:text/html,<h1>TweetledumBackgroundTab Updated!</h1><p>Tweetledum Background Tab has been updated.  Please check the <a href="#">extension page</a> for more information.</p>';
 				break;
 		}
 		if (url) {
 			chrome.tabs.create({
-	            url: url
-	        });
+				url: url
+			});
 		}
 	}
 });

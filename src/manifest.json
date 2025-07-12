@@ -1,20 +1,27 @@
 {
-	"name": "Feedly Background Tab",
-	"version": "0.13",
+	"name": "Tweetledum Background Tab",
+	"version": "0.14",
 	"manifest_version": 2,
-	"description": "Open Feedly Links in Background Tab using shortcut key",
+	"description": "Open Tweetledum Links in Background Tab using shortcut key",
 	"content_scripts": [
 		{
-			"matches": ["*://*.feedly.com/*"],
+			"matches": [
+				"*://tweetledum.embiggen.net/*",
+				"*://drupal8.home.jaybeaton.com/tweets/tweetledum/tweetledum/*",
+				"*://*.jaybeaton.com/*",
+				"*://*.embiggen.net/*"
+			],
 			"js": ["js/keypress.js"]
 		}
 	],
 	"background": { "scripts": ["js/background.js"] },
 	"options_page": "options.html",
 	"permissions": [
-		"http://www.feedly.com/*",
-		"http://cloud.feedly.com/*",
-		"https://cloud.feedly.com/*",
+		"http://tweetledum.embiggen.net/*",
+		"https://tweetledum.embiggen.net/*",
+		"https://tweetledummer.embiggen.net/*",
+                "https://testing.home.jaybeaton.com/*",
+		"http://drupal8.home.jaybeaton.com/tweets/tweetledum/tweetledum/*",
 	    "storage"
 	],
 	"minimum_chrome_version": "21",

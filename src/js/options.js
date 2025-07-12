@@ -37,6 +37,7 @@
 		 * @private
 		 */
 		var _defaultShortcutKey = ';';
+		var _defaultTweetKey = "'";
 
 		/**
 		 * Initializer function: sets hotkeys, etc
@@ -57,6 +58,12 @@
 				}
 				document.querySelector('#fbt_shortcutkey').value = settings.shortcutKey;
 			});
+			chrome.storage.sync.get('tweetKey', function(settings) {
+				if (!settings.tweetKey) {
+					settings.tweetKey = _defaultTweetKey;
+				}
+				document.querySelector('#fbt_tweetkey').value = settings.tweetKey;
+			});
 		};
 
 		/**
@@ -65,7 +72,8 @@
 		 */
 		var _validateAndSave = function() {
 			var key = document.querySelector('#fbt_shortcutkey');
-			if (key.value == '') {
+			var key2 = document.querySelector('#fbt_tweetkey');
+			if (key.value === '' || key2.value === '') {
 				_updateStatus(_messages.validateFailure, _messageTypes.failure);
 				return false;
 			}
@@ -80,7 +88,11 @@
 		 */
 		var _save = function() {
 			var shortcutKey = document.querySelector('#fbt_shortcutkey').value;
-			chrome.storage.sync.set({'shortcutKey': shortcutKey}, function () {
+			var tweetKey = document.querySelector('#fbt_tweetkey').value;
+
+			console.log('tweetKey:'+tweetKey);
+
+			chrome.storage.sync.set({'shortcutKey': shortcutKey, 'tweetKey': tweetKey}, function () {
 				_updateStatus(_messages.success, _messageTypes.success);
 			});
 		};
