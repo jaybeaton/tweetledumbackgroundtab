@@ -1,8 +1,8 @@
 {
-	"name": "Tweetledum Background Tab",
-	"version": "0.14",
-	"manifest_version": 2,
-	"description": "Open Tweetledum Links in Background Tab using shortcut key",
+	"name": "Tweetledummer Background Tab",
+	"version": "3.00",
+	"manifest_version": 3,
+	"description": "Open Tweetledummer Links in Background Tab using shortcut key",
 	"content_scripts": [
 		{
 			"matches": [
@@ -14,16 +14,18 @@
 			"js": ["js/keypress.js"]
 		}
 	],
-	"background": { "scripts": ["js/background.js"] },
+	"background": { "service_worker": ["background.js"] },
 	"options_page": "options.html",
 	"permissions": [
+		"storage"
+	],
+	"host_permissions": [
 		"http://tweetledum.embiggen.net/*",
 		"https://tweetledum.embiggen.net/*",
 		"https://tweetledummer.embiggen.net/*",
-                "https://testing.home.jaybeaton.com/*",
-		"http://drupal8.home.jaybeaton.com/tweets/tweetledum/tweetledum/*",
-	    "storage"
+		"https://testing.home.jaybeaton.com/*",
+		"http://drupal8.home.jaybeaton.com/tweets/tweetledum/tweetledum/*"
 	],
-	"minimum_chrome_version": "21",
+	"minimum_chrome_version": "88",
 	"icons": { "128": "images/icon_128.png" }
 }
