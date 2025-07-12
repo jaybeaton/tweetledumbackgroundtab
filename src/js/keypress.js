@@ -58,7 +58,7 @@
 
 					if (checked) {
 							if (url) {
-									chrome.extension.sendMessage({url: url});
+								  chrome.runtime.sendMessage({url: url});
 							}
 							else {
 									console.log("Could not find any url.");

@@ -14,7 +14,10 @@
 			"js": ["js/keypress.js"]
 		}
 	],
-	"background": { "service_worker": ["background.js"] },
+	"background": {
+		"service_worker": "js/background.js",
+		"type": "module"
+	},
 	"options_page": "options.html",
 	"permissions": [
 		"storage"
