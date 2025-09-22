@@ -47,17 +47,26 @@
 
 					var checked = false;
 					var url;
+					var activeElement = document.querySelector('div.active');
+					if (activeElement.length < 1) {
+						  console.log("Could not find active element.");
+						  return;
+					}
 
 					if (e.keyCode === _triggerKeyCode) {
 						checked = true;
-						url = document.querySelector('div.active').getAttribute('data-url');
+						url = activeElement.getAttribute('data-url');
 					} else if (e.keyCode === _triggerTweetCode) {
 							checked = true;
-							url = document.querySelector('div.active').getAttribute('data-tweet');
+							url = activeElement.getAttribute('data-tweet');
 					}
 
 					if (checked) {
 							if (url) {
+							    activeElement.classList.add('selecting-url');
+								  setTimeout(function() {
+										activeElement.classList.remove('selecting-url');
+									}, 500);
 								  chrome.runtime.sendMessage({url: url});
 							}
 							else {
